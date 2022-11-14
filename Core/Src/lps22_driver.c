@@ -10,51 +10,31 @@
 
 #include "lps22_driver.h" 
 #include <stdint.h> 
+#include <spi.c> 
 
 /**
   * @brief  SPI Read Function 
   * @retval result 
   */
-void SPI_Read(void)
-{   
-} 
-
-/**
-  * @brief  SPI Write Function 
-  * @retval result 
-  */
-void SPI_Write(uint16_t )
-{   
-} 
-   
-   
-/**
-  * @brief  Set LPS22HB Initialization.
-  * @retval None
-  */
-void LPS22_Init(void)
+void SPI_Read(uint16_t Reg)
 {
-  uint8_t temp;
+   HAL_SPI_Receive(&hspi3, (uint8_t *)&Reg, 1, HAL_MAX_DELAY); 
+} 
 
-  /* Set Power mode */
-  temp = SENSOR_IO_Read(LPS22HB_RES_CONF_REG);
+/**
+  * @brief  SPI Write Function - reads 1 byte starting at a given address 
+  * @retval read Value  
+  */
+void SPI_Write(uint16_t Reg, uint16_t Val)
+{
+  /*
+    uint8_t readVal = 0x00; 
+    
+    HAL_SPI_Transmit(&hspi3, (uint8_t *)&addr, 1, 
+    HAL_SPI_Transmit(&hspi3, (uint8_t *)&Readval, 1, HAL_MAX_DELAY); 
+    
+    return readVal; 
+   */ 
+} 
 
-  temp &= ~LPS22HB_LCEN_MASK;
-  temp |= (uint8_t)0x01; /* Set low current mode */
 
-  SENSOR_IO_Write(LPS22HB_RES_CONF_REG, temp);
-
-  /* Read CTRL_REG1 */
-  temp = SENSOR_IO_Read(LPS22HB_CTRL_REG1);
-
-  /* Set default ODR */
-  temp &= ~LPS22HB_ODR_MASK;
-  temp |= (uint8_t)0x30; /* Set ODR to 25Hz */
-
-  /* Enable BDU */
-  temp &= ~LPS22HB_BDU_MASK;
-  temp |= ((uint8_t)0x02);
-
-  /* Apply settings to CTRL_REG1 */
-  SENSOR_IO_Write(LPS22HB_CTRL_REG1, temp);
-}  

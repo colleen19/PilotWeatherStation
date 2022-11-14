@@ -221,6 +221,10 @@ void EXTI9_5_IRQHandler(void)
 void EXTI15_10_IRQHandler(void)
 {
   /* USER CODE BEGIN EXTI15_10_IRQn 0 */
+  if(__HAL_GPIO_EXTI_GET_FLAG(BUTTON_EXTI13_Pin))
+  { 
+    LED2_GPIO_Port -> ODR ^= LED2_Pin; 
+  } 
 
   /* USER CODE END EXTI15_10_IRQn 0 */
   HAL_GPIO_EXTI_IRQHandler(LPS22HB_INT_DRDY_EXTI0_Pin);

@@ -78,7 +78,7 @@ void Calc_Raining(float pressure)
   */  
 void ForecastConditions(void)
 {
-  //switch(newCondition) {
+    //switch(newCondition) {
 } 
      
   

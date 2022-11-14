@@ -155,16 +155,18 @@ int main(void)
    
    // ConsoleProcess();  
 
-    HTS221_ReadTemp(); 
-    HTS221_ReadHumidity(); 
+    //HTS221_ReadTemp(); 
+    //HTS221_ReadHumidity(); 
     
     
-    /*Blinky Example */ 
-    /* USER CODE END WHILE */
-    //HAL_GPIO_WritePin(LED2_GPIO_Port, LED2_Pin, GPIO_PIN_SET); 
-    //HAL_Delay(1000); 
-    //HAL_GPIO_WritePin(LED2_GPIO_Port, LED2_Pin, GPIO_PIN_RESET); 
-    //HAL_Delay(1000); 
+    /*Blinky Button Interrupt Example*/ 
+    /*
+    HAL_GPIO_WritePin(LED2_GPIO_Port, LED2_Pin, GPIO_PIN_SET); 
+    HAL_Delay(1000); 
+    HAL_GPIO_WritePin(LED2_GPIO_Port, LED2_Pin, GPIO_PIN_RESET); 
+    HAL_Delay(1000); 
+    */ 
+     /* USER CODE END WHILE */
     
   
     /* USER CODE BEGIN 3 */

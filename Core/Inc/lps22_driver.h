@@ -52,3 +52,5 @@
 #define LPS22HB_TDA_MASK             (uint8_t)0x02
 #define LPS22HB_PDA_MASK             (uint8_t)0x01
 
+void SPI_Read(uint16_t Reg); 
+void SPI_Write(uint16_t Reg, uint16_t Val); 
