@@ -1090,6 +1090,9 @@
                     <name>$PROJ_DIR$\..\Core\Src\dfsdm.c</name>
                 </file>
                 <file>
+                    <name>$PROJ_DIR$\..\Core\Src\forecast_algo.c</name>
+                </file>
+                <file>
                     <name>$PROJ_DIR$\..\Core\Src\gpio.c</name>
                 </file>
                 <file>

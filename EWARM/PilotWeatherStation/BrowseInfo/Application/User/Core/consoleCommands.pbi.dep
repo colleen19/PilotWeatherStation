@@ -56,5 +56,7 @@ C:\Users\cstaeger\Repos\MES\PilotWeatherStation\EWARM\PilotWeatherStation\Browse
   C:\Users\cstaeger\Repos\MES\PilotWeatherStation\EWARM\..\Core\Inc\i2c.h \
   C:\Users\cstaeger\Repos\MES\PilotWeatherStation\EWARM\..\Core\Inc\consoleIo.h \
   C:\Users\cstaeger\Repos\MES\PilotWeatherStation\EWARM\..\Core\Inc\lps22_driver.h \
+  C:\Program\ Files\IAR\ Systems\Embedded\ Workbench\ 9.0\arm\inc\c\stdlib.h \
+  C:\Program\ Files\IAR\ Systems\Embedded\ Workbench\ 9.0\arm\inc\c\DLib_Product_stdlib.h \
   C:\Users\cstaeger\Repos\MES\PilotWeatherStation\EWARM\..\Core\Inc\usart.h \
   C:\Users\cstaeger\Repos\MES\PilotWeatherStation\EWARM\..\Core\Inc\version.h
