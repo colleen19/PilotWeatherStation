@@ -181,6 +181,7 @@ uint16_t HTS221_ReadTemp(void)
     
     tmp_f = ((float)tmp_f1/tmp_f2)  +  (float)T0_degC;
     
+    /*Test Code*/ 
     sprintf(buf, "%f", tmp_f); 
     ConsoleIoSendString("Current Temp is: "); 
     ConsoleIoSendString(buf); 

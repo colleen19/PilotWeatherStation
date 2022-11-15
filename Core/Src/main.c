@@ -157,7 +157,7 @@ int main(void)
 
     //HTS221_ReadTemp(); 
     //HTS221_ReadHumidity(); 
-    
+    LPS22_ReadPressure(); 
     
     /*Blinky Button Interrupt Example*/ 
     /*

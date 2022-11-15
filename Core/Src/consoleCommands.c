@@ -20,6 +20,8 @@ static eCommandResult_T ConsoleCommandHelp(const char buffer[]);
 static eCommandResult_T ConsoleCommandParamExampleInt16(const char buffer[]);
 static eCommandResult_T ConsoleCommandParamExampleHexUint16(const char buffer[]);
 static eCommandResult_T ConsoleCommandTemp(const char buffer[]); 
+static eCommandResult_T ConsoleCommandHum(const char buffer[]); 
+static eCommandResult_T ConsoleCommandPressure(const char buffer[]); 
 
 static const sConsoleCommandTable_T mConsoleCommandTable[] =
 {
@@ -29,6 +31,8 @@ static const sConsoleCommandTable_T mConsoleCommandTable[] =
     {"int", &ConsoleCommandParamExampleInt16, HELP("How to get a signed int16 from params list: int -321")},
     {"u16h", &ConsoleCommandParamExampleHexUint16, HELP("How to get a hex u16 from the params list: u16h aB12")},
     {"temp", &ConsoleCommandTemp, HELP("Prints the current temp")}, 
+    {"humidity", &ConsoleCommandHum, HELP("Prints the current relative humidity")}, 
+    {"pressure", &ConsoleCommandPressure, HELP("Prints the current pressure")},
 
 	CONSOLE_COMMAND_TABLE_END // must be LAST
 };
@@ -104,10 +108,48 @@ static eCommandResult_T ConsoleCommandVer(const char buffer[])
 
 static eCommandResult_T ConsoleCommandTemp(const char buffer[]) 
 { 
-       
+      float temp_f; 
+      char buf[100]; 
       eCommandResult_T result = COMMAND_SUCCESS;
+      
+      temp_f = HTS221_ReadTemp(); 
+      sprintf(buf, "%f", temp_f); 
+      ConsoleIoSendString("Current Temp is: "); 
+      ConsoleIoSendString(buf); 
+      ConsoleIoSendString("\r\n");
+      
+      return result; 
 } 
 
+static eCommandResult_T ConsoleCommandHum(const char buffer[]) 
+{ 
+      float hum_f; 
+      char buf[100]; 
+      eCommandResult_T result = COMMAND_SUCCESS;
+      
+      hum_f = HTS221_ReadHumidity();
+      sprintf(buf, "%f", hum_f); 
+      ConsoleIoSendString("Current Humidity is: "); 
+      ConsoleIoSendString(buf); 
+      ConsoleIoSendString("\r\n");
+      
+      return result; 
+} 
+
+static eCommandResult_T ConsoleCommandPressure(const char buffer[]) 
+{ 
+      float press_f; 
+      char buf[100]; 
+      eCommandResult_T result = COMMAND_SUCCESS;
+      
+      //press_f = LPS22_ReadPressure(); 
+      //sprintf(buf, "%f", press_f); 
+      //ConsoleIoSendString("Current Pressure is: "); 
+      //ConsoleIoSendString(buf); 
+      //ConsoleIoSendString("\r\n");
+      
+      return result; 
+} 
 const sConsoleCommandTable_T* ConsoleCommandsGetTable(void)
 {
 	return (mConsoleCommandTable);
