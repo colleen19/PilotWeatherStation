@@ -5,7 +5,8 @@
  * @brief   This file contains the State Machine for the System 
  ******************************************************************************
  */ 
-#include <stdio.h> 
+
+#include "system_SM.h" 
 
 /* States */ 
 typedef enum
@@ -18,6 +19,8 @@ typedef enum
   SYSTEMERROR, 
 } eState; 
 
+
+
 /*Events*/ 
 typedef enum 
 { 
@@ -25,32 +28,52 @@ typedef enum
   FORECAST_TIMER, 
 } eEvent; 
 
+//Function Prototypes for State Machine 
+static eState ButtonPressHandler(eState currentState); 
+
+WeatherData wd; 
+
+//eState currentState; 
 
 /**
-  * @brief handler for button press event 
+  * @brief handler for button press event, called from interrupt  
   * 
   */
-eState ButtonPressHandler(eCurrentState)
+eState ButtonPressHandler(eState currentState)
 { 
-    if (eCurrentState == INIT) 
+    if (currentState == INIT) 
     { 
       return SLEEP; 
     }
-    else if (eCurrentState == SLEEP) 
+    else if (currentState == SLEEP) 
     { 
-      return ACTIVE; 
+      return INIT; 
     } 
     
 } 
 
 /**
-  * @brief handler for the 20 min forecast timer event 
+  * @brief handler to get data every 1 min and stop at 5 min
   * 
   */
-eState ForecastTimerHandler(void) 
+void ForecastTimerHandler(WeatherData *wd) 
 { 
- 
+    uint16_t i = 0; 
+    
+    wd->temperature = HTS221_ReadTemp(); 
+    wd->humidity = HTS221_ReadHumidity(); 
+    
+    /*add values to the array every minute */ 
+    while(i < 5)
+    {   
+        wd->pressure[i] = LPS22_ReadPressure();
+        ConsoleIoSendString("Getting Pressure Data"); 
+        HAL_Delay(600); 
+        i++;       
+    } 
+
 } 
+
 
 /**
   * @brief starts the state machine 
@@ -62,35 +85,62 @@ void executeStateMachine(void)
   eEvent eNewEvent; 
   
   while(1) 
-  { 
-      eSystemEvent eNewEvent = ReadEvent(); //TODO: fix this 
-      
+  {   
+      ConsoleIoSendString("In SM"); 
       switch(eNextState)
       { 
         /* initializes the system */ 
         case INIT: 
-        { 
-            System_Init(); 
-            if(BUTTON_PRESS == eNewEvent)
-            {
-               eNextState = ButtonPressHandler(INIT); 
-            } 
-        } 
+            //System_Init(); 
+            //if(BUTTON_PRESS == eNewEvent)
+            //{
+             //  eNextState = ButtonPressHandler(INIT); 
+            //}  
+            
+            eNextState = GETDATA; 
         break; 
+        
         /*deinitializes the system */ 
         case SLEEP: 
-        { 
-            System_DeInit(); 
+            //System_DeInit(); 
             if(BUTTON_PRESS == eNewEvent)
             { 
                eNextState = ButtonPressHandler(SLEEP); 
             } 
-        } 
         break; 
-        /*Starts collecting data, enters forecast state when enough data has been collected*/ 
-        case GETDATA: 
-        { 
-            System_DATA 
+        
+        /*Starts collecting data, enters forecast state when enough timer is complete*/ 
+        case GETDATA:  
+            ConsoleIoSendString("Getting Data"); 
+            ForecastTimerHandler(&wd);  
+            eNextState = FORECAST;
+        break; 
+        
+        /*Executes the forecasting algorithm */ 
+        case FORECAST: 
+          ConsoleIoSendString("Forecasting"); 
+           ForecastConditions(&wd); 
+           eNextState = OUTPUTDATA;     
+        break; 
+        
+        /*Outputs data to the console, starts over after outputting*/ 
+        case OUTPUTDATA: 
+           //OutputData(); 
+           eNextState = GETDATA; 
+         
+        break; 
+        
+        /*Send Error Message to the console and deinits system*/ 
+        case SYSTEMERROR: 
+           ConsoleIoSendString("SYSTEM ERROR"); 
+           eNextState = SLEEP; 
+        break; 
+        
+      } 
+        
+        
+  }  
+             
 
 } 
 

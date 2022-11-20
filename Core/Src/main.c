@@ -31,6 +31,7 @@
 #include <stdio.h> 
 #include <stdlib.h> 
 #include <hts221_driver.h>
+#include "system_SM.h"
 
 
 /* Private includes ----------------------------------------------------------*/
@@ -96,7 +97,6 @@ int main(void)
   HAL_Init();
 
   /* USER CODE BEGIN Init */
-  static uint8_t who_am_i_test; 
   
   /* USER CODE END Init */
 
@@ -121,30 +121,6 @@ int main(void)
   /*Test Humidity Sensor*/ 
    HTS221_Init(); 
   
-   //static float humidity_value;
-   //float temp_value; 
-    
-   //temp_value = HTS221_ReadTemp();
-
-   //who_am_i_test = HTS221_WHO_I_AM(); 
-   
-   //humidity_value = HTS221_ReadHumidity();
-   
-   //char buf[100]; 
-   //ConsoleInit(); 
-   
-    //sprintf(buf, "%f", humidity_value); 
-    //sprintf(buf, "%f", temp_value); 
-    //ConsoleProcess();   
-    //ConsoleIoSendString("Current Humidity is: "); 
-    //ConsoleIoSendString("Current Temp is: "); 
-    //ConsoleIoSendString(buf); 
-    //ConsoleIoSendString("\r\n"); 
-    
-  
-     float temp_value; 
-     char buf[100]; 
-    
  
   /* USER CODE END 2 */
 
@@ -153,19 +129,10 @@ int main(void)
   while (1)
   {
    
-   // ConsoleProcess();  
-
-    //HTS221_ReadTemp(); 
-    //HTS221_ReadHumidity(); 
-    LPS22_ReadPressure(); 
     
-    /*Blinky Button Interrupt Example*/ 
-    /*
-    HAL_GPIO_WritePin(LED2_GPIO_Port, LED2_Pin, GPIO_PIN_SET); 
-    HAL_Delay(1000); 
-    HAL_GPIO_WritePin(LED2_GPIO_Port, LED2_Pin, GPIO_PIN_RESET); 
-    HAL_Delay(1000); 
-    */ 
+    //ConsoleProcess();  
+    executeStateMachine(); 
+  
      /* USER CODE END WHILE */
     
   

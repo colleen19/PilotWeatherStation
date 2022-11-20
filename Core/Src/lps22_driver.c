@@ -42,7 +42,7 @@ static void LPS22_I2C_Write(uint16_t Reg, uint8_t Value, uint16_t Length)
   * @param  DeviceAddr: I2C device address
   * @retval None
   */
-static void LPS22HB_Init(uint16_t DeviceAddr)
+static void LPS22HB_Init(void)
 {
   uint8_t tmp;
 

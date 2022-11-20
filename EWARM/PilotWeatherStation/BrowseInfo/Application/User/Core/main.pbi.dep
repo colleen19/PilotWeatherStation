@@ -1,4 +1,9 @@
 C:\Users\cstaeger\Repos\MES\PilotWeatherStation\EWARM\PilotWeatherStation\BrowseInfo\Application\User\Core\main.pbi: \
+  C:\Users\cstaeger\Repos\MES\PilotWeatherStation\EWARM\..\Core\Inc\forecast_algo.h \
+  C:\Program\ Files\IAR\ Systems\Embedded\ Workbench\ 9.0\arm\inc\c\ycheck.h \
+  C:\Program\ Files\IAR\ Systems\Embedded\ Workbench\ 9.0\arm\inc\c\time64.h \
+  C:\Program\ Files\IAR\ Systems\Embedded\ Workbench\ 9.0\arm\inc\c\time.h \
+  C:\Users\cstaeger\Repos\MES\PilotWeatherStation\EWARM\..\Core\Inc\system_SM.h \
   C:\Users\cstaeger\Repos\MES\PilotWeatherStation\EWARM\..\Core\Inc\gpio.h \
   C:\Users\cstaeger\Repos\MES\PilotWeatherStation\EWARM\..\Core\Inc\ConsoleCommands.h \
   C:\Users\cstaeger\Repos\MES\PilotWeatherStation\EWARM\..\Core\Inc\usb_otg.h \
@@ -8,7 +13,6 @@ C:\Users\cstaeger\Repos\MES\PilotWeatherStation\EWARM\PilotWeatherStation\Browse
   C:\Users\cstaeger\Repos\MES\PilotWeatherStation\EWARM\..\Core\Inc\main.h \
   C:\Users\cstaeger\Repos\MES\PilotWeatherStation\EWARM\..\Core\Inc\usart.h \
   C:\Program\ Files\IAR\ Systems\Embedded\ Workbench\ 9.0\arm\inc\c\DLib_Product_stdlib.h \
-  C:\Program\ Files\IAR\ Systems\Embedded\ Workbench\ 9.0\arm\inc\c\ycheck.h \
   C:\Program\ Files\IAR\ Systems\Embedded\ Workbench\ 9.0\arm\inc\c\stdlib.h \
   C:\Users\cstaeger\Repos\MES\PilotWeatherStation\EWARM\..\Core\Inc\lps22_driver.h \
   C:\Users\cstaeger\Repos\MES\PilotWeatherStation\EWARM\..\Core\Inc\console.h \

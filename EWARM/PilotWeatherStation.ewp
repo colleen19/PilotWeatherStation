@@ -1090,6 +1090,12 @@
                     <name>$PROJ_DIR$\..\Core\Src\dfsdm.c</name>
                 </file>
                 <file>
+                    <name>$PROJ_DIR$\..\Core\Src\forecast_algo.c</name>
+                </file>
+                <file>
+                    <name>$PROJ_DIR$\..\Core\Src\forecast_test.c</name>
+                </file>
+                <file>
                     <name>$PROJ_DIR$\..\Core\Src\gpio.c</name>
                 </file>
                 <file>
@@ -1115,6 +1121,9 @@
                 </file>
                 <file>
                     <name>$PROJ_DIR$\..\Core\Src\stm32l4xx_it.c</name>
+                </file>
+                <file>
+                    <name>$PROJ_DIR$\..\Core\Src\system_SM.c</name>
                 </file>
                 <file>
                     <name>$PROJ_DIR$\..\Core\Src\usart.c</name>
@@ -1214,5 +1223,26 @@
                 <name>$PROJ_DIR$\..\Drivers\STM32L4xx_HAL_Driver\Src\stm32l4xx_ll_usb.c</name>
             </file>
         </group>
+        <file>
+            <name>$PROJ_DIR$\..\Drivers\DISCO_L475VG_IOT01A_wifi-c61a93635433\es_wifi.c</name>
+        </file>
+        <file>
+            <name>$PROJ_DIR$\..\Drivers\DISCO_L475VG_IOT01A_wifi-c61a93635433\es_wifi.h</name>
+        </file>
+        <file>
+            <name>$PROJ_DIR$\..\Drivers\DISCO_L475VG_IOT01A_wifi-c61a93635433\es_wifi_conf.h</name>
+        </file>
+        <file>
+            <name>$PROJ_DIR$\..\Drivers\DISCO_L475VG_IOT01A_wifi-c61a93635433\es_wifi_io.c</name>
+        </file>
+        <file>
+            <name>$PROJ_DIR$\..\Drivers\DISCO_L475VG_IOT01A_wifi-c61a93635433\es_wifi_io.h</name>
+        </file>
+        <file>
+            <name>$PROJ_DIR$\..\Drivers\DISCO_L475VG_IOT01A_wifi-c61a93635433\wifi.c</name>
+        </file>
+        <file>
+            <name>$PROJ_DIR$\..\Drivers\DISCO_L475VG_IOT01A_wifi-c61a93635433\wifi.h</name>
+        </file>
     </group>
 </project>
