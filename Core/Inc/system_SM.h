@@ -16,6 +16,11 @@
 #include "hts221_driver.h" 
 #include "lps22_driver.h"
 
+   
+void SnowyWeatherTest(WeatherData *snowy); 
+void SunnyWeatherTest(WeatherData *sunny); 
+void FoggyWeatherTest(WeatherData *foggy); 
+void RainyWeatherTest(WeatherData *rainy); 
 
 void ForecastTimerHandler(WeatherData *wd); 
 void executeStateMachine(void); 

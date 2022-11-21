@@ -39,6 +39,7 @@
 
 void SPI_Read(uint16_t Reg); 
 void SPI_Write(uint16_t Reg, uint16_t Val); 
+void LPS22HB_Init(void); 
 float LPS22_ReadPressure(void); 
 
 #endif

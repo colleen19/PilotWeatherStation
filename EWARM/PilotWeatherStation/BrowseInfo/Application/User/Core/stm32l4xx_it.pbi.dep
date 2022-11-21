@@ -55,4 +55,8 @@ C:\Users\cstaeger\Repos\MES\PilotWeatherStation\EWARM\PilotWeatherStation\Browse
   C:\Program\ Files\IAR\ Systems\Embedded\ Workbench\ 9.0\arm\inc\c\stdlib.h \
   C:\Program\ Files\IAR\ Systems\Embedded\ Workbench\ 9.0\arm\inc\c\DLib_Product_stdlib.h \
   C:\Users\cstaeger\Repos\MES\PilotWeatherStation\EWARM\..\Core\Inc\usart.h \
-  C:\Users\cstaeger\Repos\MES\PilotWeatherStation\EWARM\..\Core\Inc\stm32l4xx_it.h
+  C:\Users\cstaeger\Repos\MES\PilotWeatherStation\EWARM\..\Core\Inc\stm32l4xx_it.h \
+  C:\Users\cstaeger\Repos\MES\PilotWeatherStation\EWARM\..\Core\Inc\system_SM.h \
+  C:\Program\ Files\IAR\ Systems\Embedded\ Workbench\ 9.0\arm\inc\c\time.h \
+  C:\Program\ Files\IAR\ Systems\Embedded\ Workbench\ 9.0\arm\inc\c\time64.h \
+  C:\Users\cstaeger\Repos\MES\PilotWeatherStation\EWARM\..\Core\Inc\forecast_algo.h

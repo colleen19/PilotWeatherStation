@@ -228,6 +228,9 @@ void Error_Handler(void);
 #define ISM43362_DRDY_EXTI1_GPIO_Port GPIOE
 /* USER CODE BEGIN Private defines */
 
+void System_Init(void); 
+void System_DeInit(void); 
+
 /* USER CODE END Private defines */
 
 #ifdef __cplusplus

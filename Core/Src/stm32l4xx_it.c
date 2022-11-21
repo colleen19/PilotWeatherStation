@@ -20,6 +20,7 @@
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
 #include "stm32l4xx_it.h"
+#include "system_SM.h"
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 /* USER CODE END Includes */
@@ -223,6 +224,7 @@ void EXTI15_10_IRQHandler(void)
   /* USER CODE BEGIN EXTI15_10_IRQn 0 */
   if(__HAL_GPIO_EXTI_GET_FLAG(BUTTON_EXTI13_Pin))
   { 
+    /*Blinky using interrupts*/ 
     LED2_GPIO_Port -> ODR ^= LED2_Pin; 
   } 
 

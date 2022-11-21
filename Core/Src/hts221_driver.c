@@ -131,6 +131,7 @@ float HTS221_ReadHumidity(void)
    sprintf(buf, "%f", hum_f); 
    ConsoleIoSendString("Current Humidity is: "); 
    ConsoleIoSendString(buf); 
+   ConsoleIoSendString("%"); 
    ConsoleIoSendString("\r\n");
 
   return (hum_f);
@@ -183,8 +184,9 @@ uint16_t HTS221_ReadTemp(void)
     
     /*Test Code*/ 
     sprintf(buf, "%f", tmp_f); 
-    ConsoleIoSendString("Current Temp is: "); 
+    ConsoleIoSendString("Current Temperature is: "); 
     ConsoleIoSendString(buf); 
+    ConsoleIoSendString("C"); 
     ConsoleIoSendString("\r\n"); 
     
     return tmp_f; 

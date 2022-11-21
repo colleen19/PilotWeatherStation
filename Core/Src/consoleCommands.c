@@ -142,11 +142,11 @@ static eCommandResult_T ConsoleCommandPressure(const char buffer[])
       char buf[100]; 
       eCommandResult_T result = COMMAND_SUCCESS;
       
-      //press_f = LPS22_ReadPressure(); 
-      //sprintf(buf, "%f", press_f); 
-      //ConsoleIoSendString("Current Pressure is: "); 
-      //ConsoleIoSendString(buf); 
-      //ConsoleIoSendString("\r\n");
+      press_f = LPS22_ReadPressure(); 
+      sprintf(buf, "%f", press_f); 
+      ConsoleIoSendString("Current Pressure is: "); 
+      ConsoleIoSendString(buf); 
+      ConsoleIoSendString("\r\n");
       
       return result; 
 } 

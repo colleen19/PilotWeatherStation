@@ -3,6 +3,7 @@
 
 
 #include <stdio.h>
+#include <stdint.h> 
 
 typedef struct 
 { 
@@ -14,7 +15,7 @@ typedef struct
 extern WeatherData Data1; 
 
 float Calc_CloudBase(WeatherData *wd); 
-float Calc_PressureChange(WeatherData *wd); 
+uint16_t Calc_PressureChange(WeatherData *wd); 
 void ForecastConditions(WeatherData *wd); 
 void OutputData(void); 
 

@@ -24,21 +24,17 @@ eConsoleError ConsoleIoReceive(uint8_t *buffer, const uint32_t bufferLength, uin
 
         HAL_UART_Receive(&huart1, &ch, 1, 1);
         
-	while (( i < bufferLength))
+	while (( i < bufferLength) && (ch != '0'))
 	{
-		if (ch != '\0') {
-			buffer[i] = (uint8_t) ch;
-			i++;
-			if (ch == '\r') {
-				HAL_UART_Receive(&huart1, &ch, 1, 1);
-			    break;
-			}
-			ch = '\0';
+		buffer[i] = (uint8_t) ch;
+		i++;
+		if (ch == '\r') {
+			HAL_UART_Receive(&huart1, &ch, 1, 1);
+		break;
 		}
 		HAL_UART_Receive(&huart1, &ch, 1, 1);
 	}
 	*readLength = i;
-	buffer[*readLength] = '\0';
 	return CONSOLE_SUCCESS;
 } 
 

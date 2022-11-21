@@ -10,7 +10,6 @@
 #include "forecast_algo.h" 
 #include "consoleIo.h" 
 #include <stdio.h> 
-
    
 
 /**
@@ -26,6 +25,7 @@ float Calc_DPSpread(WeatherData *wd)
      
      float DPSpread; 
      float Td; 
+     char buf[100]; 
      
      /*Calculate dewpoint from humidity*/ 
      Td = ((wd->temperature) - (100.0 - (wd ->humidity)))/ 5.0; 
@@ -47,7 +47,7 @@ float Calc_CloudBase(WeatherData *wd)
 { 
     float Cb; 
     float Td; 
-    uint16_t currentElevation = 830; 
+    uint16_t currentElevation = 830; /*Minneapolis*/ 
     
     /*Convert from Relative Humidity to Dewpoint*/
     Td = ((wd->temperature) - (100.0 - (wd->humidity)))/ 5.0; 
@@ -61,16 +61,39 @@ float Calc_CloudBase(WeatherData *wd)
   
 /**
   * @brief  Calculates current rainy conditions using the change in pressure
-  *          and the dewpoint spread 
-  *          Quickly Rising -> Very Unstable Weather  
-  *          Slowly Rising -> Good Weather 
-  *          Quickly Falling -> 
-  * @retval Array of Pressure Change Values 
+  *          Quickly Rising -> Improving Weather 
+  *          Stable-> No change in forecast 
+  *          Quickly Falling -> Storm on the way 
+  * @retval numerical value indicating either increasing, decreasing or stable pressures
   *
   */ 
-float Calc_PressureChange(WeatherData *wd) 
+uint16_t Calc_PressureChange(WeatherData *wd) 
 { 
-      
+    float press; 
+    float diff;  
+    uint16_t retVal; 
+    char buf[100]; 
+    
+     /*get the pressure difference from the first and last measurement  */ 
+     /*TODO - make this calculation better */ 
+     diff = (wd->pressure[4])  - (wd->pressure[0]);
+   
+       
+     if(diff >= 0.001)
+     { 
+         retVal = 1; 
+     } 
+     else if(diff <= -0.01)
+     { 
+         retVal = 2; 
+     } 
+     else if(-0.001 > diff > 0.01) 
+     { 
+         retVal = 3;  
+     } 
+     
+    return retVal; 
+       
 }
                          
                          
@@ -85,33 +108,75 @@ void ForecastConditions(WeatherData *wd)
 
   float cb = Calc_CloudBase(wd); 
   float DPSpread = Calc_DPSpread(wd); 
-  float PressureChange = Calc_PressureChange(wd); 
+  uint8_t pressure = Calc_PressureChange(wd); 
   
-  /*Low Clouds are surface to 6,500*/ 
+  ConsoleIoSendString("\r\n"); 
+  ConsoleIoSendString("WEATHER CONDITION REPORT"); 
+  ConsoleIoSendString("\r\n"); 
+  
+  /*If pressure is decreasing and DPSpread is less than 5, it is likely raining or snowing*/ 
+  if((pressure == 2) && (DPSpread <= 5.0))
+  { 
+    if((wd->temperature) > 0)
+    { 
+        ConsoleIoSendString("CAUTION: Currently Raining!"); 
+    } 
+    else 
+    { 
+      ConsoleIoSendString("CAUTION: Currently Snowing!"); 
+    } 
+  } 
+  
+  
+  ConsoleIoSendString("\r\n");
+  /*Low Clouds are surface to 6,500 ft*/ 
   if(cb <= 6500.0) 
   { 
-      ConsoleIoSendString("low clouds, pose icing and visibility risk"); 
+    ConsoleIoSendString("Low Clouds, CAUTION: pose icing and visibility risk"); 
   } 
+  /* Mid Level Clouds are 6500 to 20000 ft*/ 
   else if(6500.0 < cb < 20000.0)
   { 
-    ConsoleIoSendString("mid level clouds"); 
+    ConsoleIoSendString("Mid Level clouds, CAUTION: pose slight turbulence risk"); 
   } 
+  /*High Level Clouds are above 20000 ft*/ 
   else if(cb > 20000.0)
   { 
-    ConsoleIoSendString("high level clouds"); 
+    ConsoleIoSendString("High Level Clouds, No Significant Risk"); 
   } 
   
+  ConsoleIoSendString("\r\n");
   /*DPSpread */ 
-  if(DPSpread < 5)
+  if(DPSpread < 5.0)
   { 
-      ConsoleIoSendString("foggy conditions"); 
+    ConsoleIoSendString("Foggy Conditions, CAUTION: BAD VISIBITITY"); 
   } 
-    
+  else if(DPSpread >= 5.0) 
+  { 
+    ConsoleIoSendString("Clear Skies Likely, Good visibility to fly!"); 
+  } 
+  ConsoleIoSendString("\r\n");
+  /*Pressure Change */ 
+  if(pressure == 1) 
+  { 
+    ConsoleIoSendString("Pressure Increasing Rapidly, Weather Conditions Improving"); 
+  } 
+  else if(pressure == 2) 
+  { 
+    ConsoleIoSendString("Pressure Decreasing Rapidly, CAUTION: Weather Conditions Worsening"); 
+  } 
+  else 
+  { 
+    ConsoleIoSendString("Pressure Stable, No Change in Weather Conditions"); 
+  } 
+  ConsoleIoSendString("\r\n");
+  
+  ConsoleIoSendString("\r\n\r\n\r\n");
   
 } 
 
 /**
-  * @brief  Outputs data to the console, in the future will output over BLE
+  * @brief  Outputs Final Forecast to the console, in the future will output over BLE
   *          
   * @retval 
   *

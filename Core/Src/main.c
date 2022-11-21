@@ -31,6 +31,7 @@
 #include <stdio.h> 
 #include <stdlib.h> 
 #include <hts221_driver.h>
+#include <lps22_driver.h>
 #include "system_SM.h"
 
 
@@ -108,19 +109,11 @@ int main(void)
   /* USER CODE END SysInit */
 
   /* Initialize all configured peripherals */
-  MX_GPIO_Init();
-  MX_DFSDM1_Init();
-  MX_I2C2_Init();
-  MX_QUADSPI_Init();
-  MX_SPI3_Init();
-  MX_USART1_UART_Init();
-  MX_USART3_UART_Init();
-  MX_USB_OTG_FS_PCD_Init();
+
   /* USER CODE BEGIN 2 */
   
   /*Test Humidity Sensor*/ 
-   HTS221_Init(); 
-  
+ 
  
   /* USER CODE END 2 */
 
@@ -205,6 +198,32 @@ void SystemClock_Config(void)
 }
 
 /* USER CODE BEGIN 4 */
+void System_Init(void)
+{ 
+  /*Initalize all peripherals*/ 
+  MX_GPIO_Init();
+  MX_DFSDM1_Init();
+  MX_I2C2_Init();
+  MX_QUADSPI_Init();
+  MX_SPI3_Init();
+  MX_USART1_UART_Init();
+  MX_USART3_UART_Init();
+  MX_USB_OTG_FS_PCD_Init();
+  
+  /*Initalize Sensors*/
+  HTS221_Init(); 
+  LPS22HB_Init(); 
+} 
+
+void System_DeInit(void)
+{ 
+  ConsoleIoSendString("Entering Sleep Mode"); 
+  HAL_I2C_MspDeInit(&hi2c2); 
+  HAL_UART_DeInit(&huart1); 
+  HAL_SPI_DeInit(&hspi3); 
+  
+} 
+  
 
 /**
   * @brief  Retargets the C library printf function to the USART.
