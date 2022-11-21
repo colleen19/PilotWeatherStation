@@ -25,7 +25,6 @@ float Calc_DPSpread(WeatherData *wd)
      
      float DPSpread; 
      float Td; 
-     char buf[100]; 
      
      /*Calculate dewpoint from humidity*/ 
      Td = ((wd->temperature) - (100.0 - (wd ->humidity)))/ 5.0; 
@@ -69,10 +68,8 @@ float Calc_CloudBase(WeatherData *wd)
   */ 
 uint16_t Calc_PressureChange(WeatherData *wd) 
 { 
-    float press; 
     float diff;  
     uint16_t retVal; 
-    char buf[100]; 
     
      /*get the pressure difference from the first and last measurement  */ 
      /*TODO - make this calculation better */ 
@@ -103,27 +100,32 @@ uint16_t Calc_PressureChange(WeatherData *wd)
   * @retval 
   *
   */  
-void ForecastConditions(WeatherData *wd)
+uint8_t ForecastConditions(WeatherData *wd)
 {
 
   float cb = Calc_CloudBase(wd); 
   float DPSpread = Calc_DPSpread(wd); 
   uint8_t pressure = Calc_PressureChange(wd); 
+  uint8_t caution_Cnt = 0; 
   
   ConsoleIoSendString("\r\n"); 
   ConsoleIoSendString("WEATHER CONDITION REPORT"); 
   ConsoleIoSendString("\r\n"); 
+  ConsoleIoSendString("##########################################################");
+  ConsoleIoSendString("\r\n"); 
   
   /*If pressure is decreasing and DPSpread is less than 5, it is likely raining or snowing*/ 
-  if((pressure == 2) && (DPSpread <= 5.0))
+  if((pressure == 2) && (-5.0 <= DPSpread <= 5.0))
   { 
     if((wd->temperature) > 0)
     { 
         ConsoleIoSendString("CAUTION: Currently Raining!"); 
+        caution_Cnt++; 
     } 
     else 
     { 
-      ConsoleIoSendString("CAUTION: Currently Snowing!"); 
+        ConsoleIoSendString("CAUTION: Currently Snowing!"); 
+        caution_Cnt++; 
     } 
   } 
   
@@ -133,6 +135,7 @@ void ForecastConditions(WeatherData *wd)
   if(cb <= 6500.0) 
   { 
     ConsoleIoSendString("Low Clouds, CAUTION: pose icing and visibility risk"); 
+    caution_Cnt++; 
   } 
   /* Mid Level Clouds are 6500 to 20000 ft*/ 
   else if(6500.0 < cb < 20000.0)
@@ -147,11 +150,12 @@ void ForecastConditions(WeatherData *wd)
   
   ConsoleIoSendString("\r\n");
   /*DPSpread */ 
-  if(DPSpread < 5.0)
+  if(-5.0 <= DPSpread <= 5.0)
   { 
-    ConsoleIoSendString("Foggy Conditions, CAUTION: BAD VISIBITITY"); 
+    ConsoleIoSendString("Foggy Conditions, CAUTION: Bad Visibility"); 
+    caution_Cnt++; 
   } 
-  else if(DPSpread >= 5.0) 
+  else
   { 
     ConsoleIoSendString("Clear Skies Likely, Good visibility to fly!"); 
   } 
@@ -163,7 +167,8 @@ void ForecastConditions(WeatherData *wd)
   } 
   else if(pressure == 2) 
   { 
-    ConsoleIoSendString("Pressure Decreasing Rapidly, CAUTION: Weather Conditions Worsening"); 
+    ConsoleIoSendString("Pressure Decreasing Rapidly, CAUTION: Weather Conditions Worsening");
+    caution_Cnt++; 
   } 
   else 
   { 
@@ -171,7 +176,9 @@ void ForecastConditions(WeatherData *wd)
   } 
   ConsoleIoSendString("\r\n");
   
-  ConsoleIoSendString("\r\n\r\n\r\n");
+  ConsoleIoSendString("\r\n");
+  
+  return caution_Cnt; 
   
 } 
 
@@ -181,8 +188,27 @@ void ForecastConditions(WeatherData *wd)
   * @retval 
   *
   */  
-void OutputData(void)
+void OutputData(uint8_t caution_Cnt)
 { 
+   ConsoleIoSendString("\r\n"); 
+   ConsoleIoSendString("FLIGHT RECOMMENDATION"); 
+   ConsoleIoSendString("\r\n"); 
+   ConsoleIoSendString("##########################################################");
+   ConsoleIoSendString("\r\n"); 
+   
+   if(caution_Cnt == 0) 
+   { 
+     ConsoleIoSendString("GO FLY! GREAT CONDTIIONS"); 
+   } 
+   if((caution_Cnt == 1) | (caution_Cnt == 2)) 
+   { 
+     ConsoleIoSendString("FLYING OK, BUT BE CAUTIOUS"); 
+   } 
+   if(caution_Cnt >= 3) 
+   { 
+     ConsoleIoSendString("DO NOT FLY UNLESS INSTRUMENT RATED AND EXPERIENCED"); 
+   } 
+     
   
   
 } 

@@ -96,7 +96,7 @@ uint8_t HTS221_WHO_I_AM(void)
 float HTS221_ReadHumidity(void)
 {
   uint16_t H0_T0_OUT, H1_T0_OUT, H0, H1, H_T_OUT;  
-  uint8_t H0_RH, H1_RH, H0_T0_OUT_L, H0_T0_OUT_H, H1_T0_OUT_L, H1_T0_OUT_H, HR_OUT_L, HR_OUT_H, H_T_OUT_L, H_T_OUT_H; 
+  uint8_t H0_RH, H1_RH, H0_T0_OUT_L, H0_T0_OUT_H, H1_T0_OUT_L, H1_T0_OUT_H, H_T_OUT_L, H_T_OUT_H; 
   float hum_f;
   char buf[100]; 
   

@@ -17,10 +17,20 @@
 #include "lps22_driver.h"
 
    
-void SnowyWeatherTest(WeatherData *snowy); 
-void SunnyWeatherTest(WeatherData *sunny); 
-void FoggyWeatherTest(WeatherData *foggy); 
-void RainyWeatherTest(WeatherData *rainy); 
+ /*Events*/ 
+enum eEvent
+{ 
+  BUTTON_PRESS, 
+  FORECAST_TIMER, 
+  NONE, 
+}; 
+
+extern enum eEvent eNewEvent; 
+   
+void SnowyWeatherTest(WeatherData *wd); 
+void SunnyWeatherTest(WeatherData *wd); 
+void FoggyWeatherTest(WeatherData *wd); 
+void RainyWeatherTest(WeatherData *wd); 
 
 void ForecastTimerHandler(WeatherData *wd); 
 void executeStateMachine(void); 

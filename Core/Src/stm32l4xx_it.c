@@ -21,6 +21,8 @@
 #include "main.h"
 #include "stm32l4xx_it.h"
 #include "system_SM.h"
+#include "stdbool.h"
+#include "consoleIo.h"
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 /* USER CODE END Includes */
@@ -226,6 +228,17 @@ void EXTI15_10_IRQHandler(void)
   { 
     /*Blinky using interrupts*/ 
     LED2_GPIO_Port -> ODR ^= LED2_Pin; 
+    /* 
+    if(eNewEvent == BUTTON_PRESS) 
+    { 
+          eNewEvent = NONE; 
+    } 
+    else if(eNewEvent == NONE)
+    { 
+          eNewEvent = BUTTON_PRESS; 
+    } 
+    */ 
+    
   } 
 
   /* USER CODE END EXTI15_10_IRQn 0 */

@@ -57,4 +57,5 @@ C:\Users\cstaeger\Repos\MES\PilotWeatherStation\EWARM\PilotWeatherStation\Browse
   C:\Program\ Files\IAR\ Systems\Embedded\ Workbench\ 9.0\arm\inc\c\DLib_Product_stdlib.h \
   C:\Users\cstaeger\Repos\MES\PilotWeatherStation\EWARM\..\Core\Inc\consoleIo.h \
   C:\Users\cstaeger\Repos\MES\PilotWeatherStation\EWARM\..\Core\Inc\console.h \
-  C:\Users\cstaeger\Repos\MES\PilotWeatherStation\EWARM\..\Core\Inc\usart.h
+  C:\Users\cstaeger\Repos\MES\PilotWeatherStation\EWARM\..\Core\Inc\usart.h \
+  C:\Users\cstaeger\Repos\MES\PilotWeatherStation\EWARM\..\Core\Inc\main.h

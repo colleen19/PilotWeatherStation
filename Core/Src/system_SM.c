@@ -7,6 +7,7 @@
  */ 
 
 #include "system_SM.h" 
+#include "main.h"
 
 /* States */ 
 typedef enum
@@ -20,25 +21,13 @@ typedef enum
 } eState; 
 
 
-
-/*Events*/ 
-typedef enum 
-{ 
-  BUTTON_PRESS, 
-  FORECAST_TIMER, 
-} eEvent; 
-
-eEvent eNewEvent;
+enum eEvent eNewEvent = NONE; 
 
 //Function Prototypes for State Machine 
 static eState ButtonPressHandler(eState currentState); 
 
 /*Define Weather Data Types*/ 
 WeatherData wd; 
-WeatherData sunny; 
-WeatherData foggy; 
-WeatherData snowy; 
-WeatherData rainy; 
 
 /**
   * @brief handler for button press event, called from interrupt  
@@ -93,7 +82,7 @@ void SnowyWeatherTest(WeatherData *wd)
     ConsoleIoSendString("Test Snowy Weather Condition Report");  
     ConsoleIoSendString("\r\n"); 
     wd->temperature = -2.0; 
-    wd->humidity = 74; 
+    wd->humidity = 78; /*RH percentage*/ 
     wd->pressure[0] = 30.151;
     wd->pressure[1] = 30.149; 
     wd->pressure[2] = 30.139;
@@ -107,8 +96,8 @@ void SunnyWeatherTest(WeatherData *wd)
      /*Sunny Conditions*/   
     ConsoleIoSendString("Test Sunny Weather Condition Report");  
     ConsoleIoSendString("\r\n\r\n"); 
-    wd->temperature = 72.0; 
-    wd->humidity = 74; 
+    wd->temperature = 15.1; 
+    wd->humidity = 59.21; /*RH percentage*/ 
     wd->pressure[0] = 38.763;
     wd->pressure[1] = 38.765; 
     wd->pressure[2] = 38.764;
@@ -116,18 +105,18 @@ void SunnyWeatherTest(WeatherData *wd)
     wd->pressure[4] = 38.765; 
 } 
   
-void FoggyWeatherTest(WeatherData *foggy) 
+void FoggyWeatherTest(WeatherData *wd) 
 { 
      /*Foggy Conditions*/   
     ConsoleIoSendString("Test Foggy Weather Condition Report");  
     ConsoleIoSendString("\r\n"); 
-    foggy->temperature = -2.0; 
-    foggy->humidity = 74; 
-    foggy->pressure[0] = 30.15;
-    foggy->pressure[1] = 30.14; 
-    foggy->pressure[2] = 30.12;
-    foggy->pressure[3] = 30.12;
-    foggy->pressure[4] = 30.11;
+    wd->temperature = 1.23; 
+    wd->humidity = 78; /*RH percentage*/ 
+    wd->pressure[0] = 36.742;
+    wd->pressure[1] = 36.739; 
+    wd->pressure[2] = 36.739;
+    wd->pressure[3] = 36.743;
+    wd->pressure[4] = 36.741; 
 }
 
 void RainyWeatherTest(WeatherData *wd) 
@@ -135,14 +124,16 @@ void RainyWeatherTest(WeatherData *wd)
      /*Rainy Conditions*/   
     ConsoleIoSendString("Test Rainy Weather Condition Report"); 
     ConsoleIoSendString("\r\n"); 
-    wd->temperature = -2.0; 
-    wd->humidity = 74; 
-    wd->pressure[0] = 30.151;
-    wd->pressure[1] = 30.150; 
-    wd->pressure[2] = 30.147;
-    wd->pressure[3] = 30.146;
-    wd->pressure[4] = 30.145; 
+    wd->temperature = 5.39; 
+    wd->humidity = 72; 
+    wd->pressure[0] = 35.187;
+    wd->pressure[1] = 30.167; 
+    wd->pressure[2] = 30.159;
+    wd->pressure[3] = 30.156;
+    wd->pressure[4] = 30.152; 
 }
+
+
 
 /**
   * @brief starts the state machine 
@@ -151,55 +142,60 @@ void RainyWeatherTest(WeatherData *wd)
 void executeStateMachine(void)
 { 
   eState eNextState = INIT;  /*Start in an init state*/ 
+  uint8_t caution_cnt;  
   
   while(1) 
   {   
+      
       switch(eNextState)
       { 
         /* initializes the system */ 
         case INIT: 
             System_Init(); 
-            if(BUTTON_PRESS == eNewEvent)
-            {
-               eNextState = ButtonPressHandler(INIT); 
-            }  
-            eNextState = GETDATA; 
+            HAL_Delay(1000); 
+            if(eNewEvent == BUTTON_PRESS)
+            { 
+                eNextState = ButtonPressHandler(INIT); 
+            } 
+            else 
+            { 
+                eNextState = GETDATA; 
+            } 
         break; 
         
         /*deinitializes the system */ 
         case SLEEP: 
             System_DeInit(); 
-            if(BUTTON_PRESS == eNewEvent)
+            if(eNewEvent == BUTTON_PRESS)
             { 
-               eNextState = ButtonPressHandler(SLEEP); 
+                eNextState = ButtonPressHandler(SLEEP); 
             } 
         break; 
         
         /*Starts collecting data, enters forecast state when timer/get data is complete*/ 
         case GETDATA:  
-            //ForecastTimerHandler(&wd); 
+            ForecastTimerHandler(&wd); 
             //SunnyWeatherTest(&wd); 
             //FoggyWeatherTest(&wd); 
             //RainyWeatherTest(&wd); 
-            SnowyWeatherTest(&wd); 
+            //SnowyWeatherTest(&wd); 
             eNextState = FORECAST;
         break; 
         
         /*Executes the forecasting algorithm */ 
         case FORECAST: 
-           ForecastConditions(&wd); 
-           eNextState = OUTPUTDATA;     
+           caution_cnt = ForecastConditions(&wd); 
+           eNextState = OUTPUTDATA;    
         break; 
         
         /*Outputs data to the console, starts over after outputting*/ 
         case OUTPUTDATA: 
-           //OutputData(); 
-           HAL_Delay(600000); 
-           eNextState = GETDATA; 
-           
+           OutputData(caution_cnt); 
+           eNextState = INIT; 
         break; 
         
         /*Send Error Message to the console and deinits system*/ 
+        /*TODO - implement system error event!!!*/ 
         case SYSTEMERROR: 
            ConsoleIoSendString("System Error, Going to Sleep State"); 
            eNextState = SLEEP; 

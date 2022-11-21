@@ -86,6 +86,8 @@ void SystemClock_Config(void);
   * @brief  The application entry point.
   * @retval int
   */
+
+
 int main(void)
 {
   /* USER CODE BEGIN 1 */
@@ -98,6 +100,7 @@ int main(void)
   HAL_Init();
 
   /* USER CODE BEGIN Init */
+  //ConsoleInit(); 
   
   /* USER CODE END Init */
 
@@ -111,10 +114,7 @@ int main(void)
   /* Initialize all configured peripherals */
 
   /* USER CODE BEGIN 2 */
-  
-  /*Test Humidity Sensor*/ 
- 
- 
+   
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -219,7 +219,7 @@ void System_DeInit(void)
 { 
   ConsoleIoSendString("Entering Sleep Mode"); 
   HAL_I2C_MspDeInit(&hi2c2); 
-  HAL_UART_DeInit(&huart1); 
+  //HAL_UART_DeInit(&huart1); 
   HAL_SPI_DeInit(&hspi3); 
   
 } 

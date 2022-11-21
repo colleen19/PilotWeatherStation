@@ -16,7 +16,7 @@ extern WeatherData Data1;
 
 float Calc_CloudBase(WeatherData *wd); 
 uint16_t Calc_PressureChange(WeatherData *wd); 
-void ForecastConditions(WeatherData *wd); 
-void OutputData(void); 
+uint8_t ForecastConditions(WeatherData *wd); 
+void OutputData(uint8_t caution_Cnt); 
 
 #endif // FORECAST_TEST_H
